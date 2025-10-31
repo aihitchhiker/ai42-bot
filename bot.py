@@ -45,7 +45,28 @@ def post_tweet():
     except Exception as e:
         print(f"❌ {datetime.now()} ERROR: {e}")
         return False
-
+def main():
+    print("🤖 AI42 Bot - 3 posts/day random times")
+    print(f"📝 {len(TWEETS)} tweets loaded")
+    
+    posts_today = 0
+    last_post_date = None
+    
+    while True:
+        now = datetime.now()
+        
+        # Reset counter at midnight
+        if last_post_date != now.date():
+            posts_today = 0
+            last_post_date = now.date()
+        
+        # Post 3x daily at random intervals
+        if posts_today < 3 and random.random() < 0.02:  # ~2% chance per check
+            post_tweet()
+            posts_today += 1
+            time.sleep(1800)  # Wait 30min after posting
+        
+        time.sleep(600)  # Check every 10 minutes
 def main():
     print("🤖 AI42 Bot - 24/7 Mode")
     print(f"📝 {len(TWEETS)} tweets loaded")
